@@ -18,7 +18,7 @@ public class ProductDao {
 		boolean flag = false;
 		
 		try{
-			Connection connect = ConnectionJDBC.creat_connection();
+			Connection connect = ConnectionJDBC.create_connection();
 			String query = "Insert into product(prod_id, prod_name, prod_price, prod_quantity) values(?,?,?,?);";
 			
 			PreparedStatement s = connect.prepareStatement(query);
@@ -46,7 +46,7 @@ public class ProductDao {
 		boolean f = false;
 		
 		try {
-			Connection connect = ConnectionJDBC.creat_connection();
+			Connection connect = ConnectionJDBC.create_connection();
 			String query = "delete from product where prod_id = ?;";
 			PreparedStatement p = connect.prepareStatement(query);
 			
@@ -72,7 +72,7 @@ public class ProductDao {
 			//here user input is not required.
 		
 		try {
-			Connection conn = ConnectionJDBC.creat_connection();
+			Connection conn = ConnectionJDBC.create_connection();
 			
 			String query = "select * from product;";
 				
@@ -89,7 +89,7 @@ public class ProductDao {
 				String quant = rs.getString("prod_quantity");
 				
 				//%s String specifier, we are displaying data as a string.
-				System.out.format("%s,%s,%s,%s\n",id, prod_name,price,quant);
+				System.out.format("%s, %s, %s, %s\n",id, prod_name,price,quant);
 			}
 			
 			//Imp to close the statement.
@@ -109,13 +109,13 @@ public class ProductDao {
 	}
 	
 	
-	//Update product case 4
+	//case 4 Update product 
 	public static boolean updateProduct(Product prod, int old_id)
 	{
 		boolean f = false;
 		
 		try {
-			Connection conn = ConnectionJDBC.creat_connection();
+			Connection conn = ConnectionJDBC.create_connection();
 			
 			String query = "update product set prod_id = ?, prod_name= ?, prod_price= ?, prod_quantity= ? where prod_id = ? ;";
 			
@@ -150,7 +150,7 @@ public class ProductDao {
 		boolean f = false;
 		
 		try {
-			Connection conn = ConnectionJDBC.creat_connection();
+			Connection conn = ConnectionJDBC.create_connection();
 			
 			String query = "select * from product where prod_id = ?";
 			
@@ -189,7 +189,7 @@ public class ProductDao {
 		boolean f = false;
 		
 		try {
-			Connection conn = ConnectionJDBC.creat_connection();
+			Connection conn = ConnectionJDBC.create_connection();
 			
 			String query = "select count(*) from product;";
 			
@@ -218,8 +218,88 @@ public class ProductDao {
 		return f;
 	}
 	
+	//case 7 desc order display of records
+	public static boolean dispProductDesc()
+	{
+		boolean f = false;
+		try {
+			Connection conn = ConnectionJDBC.create_connection();
+			
+			String query = "select * from product ORDER BY prod_id DESC;";
+			
+			Statement s = conn.createStatement(); 
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next())
+			{
+				int id  = rs.getInt("prod_id");
+				String name = rs.getString("prod_name");
+				double price = rs.getDouble("prod_price");
+				String quant = rs.getString("prod_quantity");
+				
+				System.out.format("%s, %s, %s, %s \n", id+" ",name+" ",price+" ",quant+" " , "\n");
+				
+			}
+			
+			s.close();
+			
+			f=true;
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return f;
+	}
 	
 	
+	//Case 8: Like Operator Wild card for records, return records with similar patter
+				//Pattern-> "% ", "_r", "r%", secondLast character "%a_"
+	
+	public static boolean likePattern(String ch)
+	{
+		boolean f =false;
+		try {
+			Connection conn = ConnectionJDBC.create_connection();
+			
+//			String query = "select * from product where (prod_name LIKE '?%' OR prod_name LiKE '%?');";
+			String query = "select * from product where prod_name OR prod_id LIKE ?;";
+			PreparedStatement p = conn.prepareStatement(query);
+			
+			p.setString(1, "%"+ ch + "%");
+			
+			//for printing the record resultSet is used to iterate and print✨✨
+			ResultSet rs = p.executeQuery();
+			while(rs.next())
+			{
+				
+				int id  = rs.getInt("prod_id");
+				String name = rs.getString("prod_name");
+				double price = rs.getDouble("prod_price");
+				String quant = rs.getString("prod_quantity");
+				
+				System.out.format("%s, %s, %s, %s \n", id+" ",name+" ",price+" ",quant+" " , "\n");
+				
+			}
+			f = true;
+			
+//			f = false;
+			
+			rs.close();
+			p.close();
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return f;
+	}
+	
+//--------------------------------------------------------------------------------
 	
 	
 }

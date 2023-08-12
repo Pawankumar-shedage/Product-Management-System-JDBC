@@ -67,6 +67,7 @@ public class Start {
 				int id  = Integer.parseInt(read_input.readLine());
 				
 				boolean f2 = ProductDao.deleteProduct(id);
+				//to add exception of id not present....
 				
 				if(f2)
 				{
@@ -81,6 +82,8 @@ public class Start {
 				
 			
 			case 3:	//Display product table
+				
+				System.out.println("Product ID |  Product Name  | Product Price  | Product Quantiy \n");
 				
 				boolean f3 = ProductDao.displayProducts();
 				
@@ -144,6 +147,29 @@ public class Start {
 				boolean count = ProductDao.countTotalProducts();
 				
 				if(!count) System.out.println("Something went wrong.");
+				
+				break;
+				
+			case 7: //Display records in DESC Order
+				
+				System.out.println("Product ID |  Product Name  | Product Price  | Product Quantiy \n");
+				
+				boolean desc = ProductDao.dispProductDesc();
+				if(!desc) System.out.println("Some issues encountered!");
+				
+				break;
+				
+			case 8: //Like Operator.
+				
+				//char inp = Character.parse  //to set ch
+				
+				System.out.println("Enter chars to find match in Product Name\n");
+				String ch = read_input.readLine();
+				boolean likeOp = ProductDao.likePattern(ch);
+				
+				if(!likeOp) System.out.println("No Matches found.");
+				
+				//To add error handling for false result.
 				
 				break;
 				

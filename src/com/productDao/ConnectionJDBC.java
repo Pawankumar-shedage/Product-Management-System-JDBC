@@ -9,7 +9,7 @@ public class ConnectionJDBC {
 	
 	static Connection connect;
 	
-	public static Connection creat_connection() throws ClassNotFoundException{
+	public static Connection create_connection() throws ClassNotFoundException{
 		
 		try {
 			
