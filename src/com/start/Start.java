@@ -9,6 +9,7 @@ import com.productDao.ProductDao;
 
 
 
+
 public class Start {
 	
 	public static void main(String[] args) throws IOException {
@@ -87,7 +88,7 @@ public class Start {
 				
 				if(f3)
 				{
-					System.out.println("\nProducts details fetched successfully.");
+					System.out.println("\nProduct details fetched successfully.");
 				}
 				else System.out.println("Sorry please try again.");
 				
@@ -113,12 +114,37 @@ public class Start {
 				if(upd)System.out.println("Product Updated Successfully.");
 				else System.out.println("Please check inserted details and try again.");
 				
+				
+				//
+				System.out.println("Updated Product: " + updt_prod);
 				break;
 				
-			case 5:
+			case 5: //Search.
+				System.out.println("Enter student id which you want to search.");
+				
+				int searchID = Integer.parseInt(read_input.readLine());
+				
+				
+				boolean search = ProductDao.searchProduct(searchID);
+				
+				if(search)
+				{
+					System.out.println("Product is present");
+				}
+				else
+				{
+					System.out.println("No results found.");
+				}
+				
 				break;
 				
-			case 6:
+			case 6: //Count the products.
+				
+				System.out.print("Total Products: ");
+				boolean count = ProductDao.countTotalProducts();
+				
+				if(!count) System.out.println("Something went wrong.");
+				
 				break;
 				
 				

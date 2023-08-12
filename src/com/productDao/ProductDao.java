@@ -65,7 +65,7 @@ public class ProductDao {
 	}
 	
 	
-	//Display
+	// case 3 Display
 	public static boolean displayProducts()
 	{
 		boolean f = false;
@@ -144,6 +144,79 @@ public class ProductDao {
 	}
 	
 	
+	//case 5 Search by id
+	public static boolean searchProduct(int id)
+	{
+		boolean f = false;
+		
+		try {
+			Connection conn = ConnectionJDBC.creat_connection();
+			
+			String query = "select * from product where prod_id = ?";
+			
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setInt(1, id);
+			
+			ResultSet rs = p.executeQuery();
+			while(rs.next())
+			{
+				int prdID = rs.getInt("prod_id"); 
+				String prdName = rs.getString("prod_name");
+				double prod_price =rs.getDouble("prod_price");
+				String prod_quant = rs.getString("prod_quantity");
+				
+				
+				System.out.format("%s,%s,%s,%s\n",prdID, prdName, prod_price, prod_quant);
+			}
+			
+			p.close();
+
+			f = true; 
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return f;
+		
+	}
+	
+	
+	//Count Products.
+	public static boolean countTotalProducts()
+	{
+		boolean f = false;
+		
+		try {
+			Connection conn = ConnectionJDBC.creat_connection();
+			
+			String query = "select count(*) from product;";
+			
+			PreparedStatement p = conn.prepareStatement(query);
+
+			
+			ResultSet rs  =p.executeQuery();
+			
+			while(rs.next())
+			{
+				int id = rs.getInt(1);
+				
+				//%s string specifier
+				System.out.format("%s", id + "\n");
+			}
+			
+			
+			p.close();
+			f = true; 
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return f;
+	}
 	
 	
 	
